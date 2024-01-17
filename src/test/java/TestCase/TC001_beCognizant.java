@@ -1,5 +1,7 @@
 package TestCase;
 
+import java.io.IOException;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -24,16 +26,16 @@ public class TC001_beCognizant extends BaseClass
 	public void test2() throws InterruptedException
 	{
 		beCognizant bc = new beCognizant(driver);
-		bc.getName();
-		Thread.sleep(2000);
+		String pName = bc.getName();
+		Assert.assertEquals(pName, p.getProperty("UserName"));
 	}
 	
 	@Test(priority =3)
 	public void test3() throws InterruptedException
 	{
 		beCognizant bc = new beCognizant(driver);
-		bc.getEmail();
-		Thread.sleep(2000);
+		String pEmail =bc.getEmail();
+		Assert.assertEquals(pEmail, p.getProperty("email"));
 	}
 	
 	@Test(priority =4)
@@ -41,7 +43,6 @@ public class TC001_beCognizant extends BaseClass
 	{
 		beCognizant bc = new beCognizant(driver);
 		bc.validateOneCog();
-		Thread.sleep(2000);
 	}
 	
 	@Test(priority =5)
@@ -86,7 +87,7 @@ public class TC001_beCognizant extends BaseClass
 	}
 	
 	@Test(priority =15)
-	public void test15() 
+	public void test15() throws IOException 
 	{
 		beCognizant bc = new beCognizant(driver);
 		bc.validateLocalTime();

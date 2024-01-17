@@ -1,5 +1,6 @@
 package PageObject;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import Utilities.ExcelUtils;
 import Utilities.takeScreenShot;
 
 public class beCognizant extends BasePage {
@@ -28,9 +30,9 @@ public beCognizant(WebDriver driver) {
 		super(driver);
 	}
 
-//	WebDriver driver = new ChromeDriver();
 	String newActualTime = null;
 	String newActualDate = null;
+	 
 	
 	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	
@@ -64,15 +66,17 @@ public beCognizant(WebDriver driver) {
 		profile.click();	
 	}
 	
-	public	void  getName()
+	public String getName()
 	{
-		System.out.println(name.getText());
+		String profileName = name.getText();
+		return profileName;
 	
 	}
 	
-	public void getEmail()
+	public String getEmail()
 	{
-		System.out.println(email.getText());
+		String profileEmail = email.getText();
+		return profileEmail;
 	}
 	
 	public void validateOneCog()
@@ -81,11 +85,11 @@ public beCognizant(WebDriver driver) {
 		{
 			Boolean bol = oneCog.isDisplayed();
 			Assert.assertEquals(true, bol);
-			System.out.println("OneCognizant is Validated");
+			System.out.println("OneCognizant is Displayed");
 		}
 		catch(Exception e)
 		{
-			System.out.println();
+			System.out.println("OneCognizant is  not Displayed");
 		}
 		
 	}
@@ -112,12 +116,11 @@ public beCognizant(WebDriver driver) {
 	{
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].scrollIntoView();",seeAll);
-		
-
 	}
 	
-	public void validateLocalTime() 
+	public void validateLocalTime() throws IOException 
 	{
+		String xfile=System.getProperty("user.dir")+"\\TestData\\CascProject.xlsx";
 		String localCity= City.get(0).getText();
 		System.out.println("The name of the city is : "+ localCity );
 		String locTime = localTime.get(0).getText();
@@ -169,10 +172,18 @@ public beCognizant(WebDriver driver) {
 		{
 			System.out.println("The Actual day and the expected day are not same. The current day is : " + actualDay);
 		}
+
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 0, newLocalActualDateAndtime);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 1, expectedTime);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 2, actualDay);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 3, localExpectedDay);
+		Assert.assertEquals(newLocalActualDateAndtime, expectedTime);
+		Assert.assertEquals(actualDay, localExpectedDay);
 	}
 	
 	public void validateLondonTime() throws Exception
 	{
+		String xfile=System.getProperty("user.dir")+"\\TestData\\CascProject.xlsx";
 		String cityName= City.get(1).getText();
 		System.out.println("The name of the city is : "+ cityName);
 		String londonExpectedHour = londonTime.get(0).getText();
@@ -212,7 +223,6 @@ public beCognizant(WebDriver driver) {
 		{
 			System.out.println("The expected date and the actual date are not the same. The actual date is : " + newLonodnActualDate );
 		}
-		//int checkTime = londonActualTime.charAt(0) +  londonActualTime.charAt(1);
 		String newYorkActualTime = gSearch.getNewYorkTime();
 		String  checkTime =  (newYorkActualTime.charAt(0)+""+newYorkActualTime.charAt(1));
 		if(checkTime.equals("10") || checkTime.equals("11") || checkTime.equals("12"))
@@ -226,11 +236,11 @@ public beCognizant(WebDriver driver) {
 		
 		if(newlondonActualTime.equalsIgnoreCase(londonExpectedTime))
 		{
-			System.out.println("The expected time and the actual time are the same. The actual time is : " + londonExpectedTime );
+			System.out.println("The expected time and the actual time are the same. The actual time is : " + londonExpectedTime);
 		}
 		else
 		{
-			System.out.println("The expected time and the actual time are the same. The actual time is : " + londonExpectedTime);
+			System.out.println("The expected time and the actual time are not the same. The actual time is : " + londonExpectedTime);
 		}
 		String londonActualDay = gSearch.getLondonDay();
 		String actualTimeDifference = gSearch.getTimeDifference();
@@ -243,6 +253,18 @@ public beCognizant(WebDriver driver) {
 		{
 			System.out.println("The expected day and athe actual day are not same. The actual day is : " + londonActualDay);
 		}
+		
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 4, newlondonActualTime);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 5, londonExpectedTime);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 6, newLonodnActualDate);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 7, londonExpectedDate);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 8, londonActualDay);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 9, londonExpectedDay);
+		
+		Assert.assertEquals(londonExpectedDate, newLonodnActualDate);
+		Assert.assertEquals(londonActualDay, londonExpectedDay);
+		Assert.assertEquals(newlondonActualTime, londonExpectedTime);
+		
 		driver.navigate().back();
 		driver.navigate().back();
 				
@@ -250,11 +272,12 @@ public beCognizant(WebDriver driver) {
 	
 	public void validateNewYorkTime() throws Exception
 	{
+		String xfile=System.getProperty("user.dir")+"\\TestData\\CascProject.xlsx";
 		googleSearch gSearch = new googleSearch(driver);
 		String cityName= City.get(2).getText();
 		System.out.println("The name of the city is : "+ cityName);
 		String newYorkExpectedHour = newYorkTime.get(0).getText();
-		String am_pm = newYorkTime.get(1).getText();
+		String am_pm = newYorkTime.get(1).getText().toLowerCase();
 		String newYorkExpectedTime = newYorkExpectedHour+ " " + am_pm;
 		String[] newYorkExpectdDayAndDate = dayAndDate.get(2).getText().split(", "); 
 		String newYorkExpectedDay = newYorkExpectdDayAndDate[0];
@@ -303,7 +326,7 @@ public beCognizant(WebDriver driver) {
 		}
 		else
 		{
-			System.out.println("The expected time and the actual time are the same. The actual day is : " + updatedNewYorkActualTime);
+			System.out.println("The expected time and the actual time are not the same. The actual day is : " + updatedNewYorkActualTime);
 		}
 		String newYorkActualDay = gSearch.getNewYorkDay();
 		String actualTimeDifference = gSearch.getTimeDifference();
@@ -316,6 +339,17 @@ public beCognizant(WebDriver driver) {
 		{
 			System.out.println("The expected day and athe actual day are not same. The actual day is : " + newYorkActualDay);
 		}
+		
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 10, updatedNewYorkActualTime);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 11, newYorkExpectedTime);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 12, updatedNewYorkActualDate);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 13, newYorkExpectedDate);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 14, newYorkActualDay);
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 15, newYorkExpectedDay);
+		
+		Assert.assertEquals(updatedNewYorkActualDate, newYorkExpectedDate);
+		Assert.assertEquals(newYorkActualDay, newYorkExpectedDay);
+		Assert.assertEquals(updatedNewYorkActualTime, newYorkExpectedTime);
 	} 
 
 }

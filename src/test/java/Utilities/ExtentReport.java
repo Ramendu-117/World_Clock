@@ -56,7 +56,7 @@ public class ExtentReport implements ITestListener
  
 	public void onTestSuccess(ITestResult result) {
 
-		test = extent.createTest(result.getName()); // create a new enty in the report
+		test = extent.createTest(result.getName()); // create a new entry in the report
 
 		test.log(Status.PASS, "Test case PASSED is:" + result.getName()); // update status p/f/s
 

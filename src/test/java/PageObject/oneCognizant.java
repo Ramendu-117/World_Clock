@@ -1,5 +1,6 @@
 package PageObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,6 +12,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import Utilities.ExcelUtils;
+
 public class oneCognizant extends BasePage {
 	
 	public oneCognizant(WebDriver driver) {
@@ -18,6 +21,8 @@ public class oneCognizant extends BasePage {
 		// TODO Auto-generated constructor stub
 	}
 
+	 
+	
 	List<WebElement> enabledAlphabets = new ArrayList<WebElement>();
 	
 	int alphabets=0;
@@ -54,7 +59,7 @@ public class oneCognizant extends BasePage {
 	}
 	
 	public void isVisible() throws Exception
-	{	
+	{	String xfile=System.getProperty("user.dir")+"\\TestData\\CascProject.xlsx";
 
 		Thread.sleep(2000);
 		
@@ -63,11 +68,15 @@ public class oneCognizant extends BasePage {
 			alphabets++;
 			
 		}
+		
+		ExcelUtils.setCellData(xfile, "Sheet1", 1, 16, "alphabets");
+		
 		System.out.println("Total no of alphabets visible are : "+ alphabets);
 	}
 	
-	public void isDisabled() throws InterruptedException
+	public void isDisabled() throws InterruptedException, IOException
 	{
+		String xfile=System.getProperty("user.dir")+"\\TestData\\CascProject.xlsx";
 		for(WebElement ele : atoZ)
 		{
 			try 
@@ -81,6 +90,8 @@ public class oneCognizant extends BasePage {
 				catch(Exception e)
 				{
 						System.out.println("Alphabet "+ ele.getText()+" is disabled");
+						
+						ExcelUtils.setCellData(xfile, "Sheet1", 1, 17, ele.getText());
 				}
 		
 		}
@@ -89,6 +100,7 @@ public class oneCognizant extends BasePage {
 	
 	public void selectAlphabet() throws Exception
 	{
+		String xfile=System.getProperty("user.dir")+"\\TestData\\CascProject.xlsx";
 		String randomAlphabet = "";
 		while(true)
 		{
@@ -112,12 +124,23 @@ public class oneCognizant extends BasePage {
 					Thread.sleep(2000);
 					
 					List<WebElement> allApps = driver.findElements(By.xpath("//div[@class='appStoreAppName']"));
-					for(WebElement ele : allApps)
+					
+					for(int i =0;i<allApps.size();i++)
 					{
-						System.out.println(ele.getText());
+						System.out.println(allApps.get(i).getText());
+						int index = i+1;
+						ExcelUtils.setCellData(xfile, "Sheet1", index, 18, allApps.get(i).getText());
 						Thread.sleep(2000);
 						
 					}
+//					for(WebElement ele : allApps)
+//					{
+//						i= i+1;
+//						System.out.println(ele.getText());
+//						ExcelUtils.setCellData(xfile, "Sheet1", i, 18, ele.getText());
+//						Thread.sleep(2000);
+//						
+//					}
 				}
 			}
 		}

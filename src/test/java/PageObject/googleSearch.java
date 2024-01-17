@@ -15,7 +15,7 @@ public class googleSearch extends BasePage {
 	//Locators
 	@FindBy(xpath = "//textarea[@type='search']") WebElement searchBar;
 	@FindBy(xpath = "//input[@value ='Google Search']") WebElement searchButton;
-	@FindBy(xpath = "//div[@class='DcFqyf']//child::b") WebElement londonTime;
+	@FindBy(xpath = "//div[@class='odXoZb']//child::b") WebElement londonTime;
 	@FindBy(xpath = "//div[@class ='odXoZb']//child::b") WebElement newYorkTime;
 	@FindBy(xpath = "//div[@class='DcFqyf']//child::span[1]") WebElement londonDay;
 	@FindBy(xpath = "//div[@class='odXoZb']//child::span[1]") WebElement newYorkDay;

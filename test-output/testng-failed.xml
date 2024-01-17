@@ -6,23 +6,8 @@
       <class name="TestCase.TC002_oneCognizant">
         <methods>
           <include name="setUp"/>
-          <include name="test16"/>
-          <include name="test3"/>
-          <include name="test2"/>
-          <include name="test8"/>
-          <include name="test6"/>
-          <include name="test5"/>
-          <include name="test9"/>
-          <include name="test7"/>
-          <include name="test18"/>
-          <include name="test17"/>
-          <include name="test14"/>
           <include name="test10"/>
-          <include name="test15"/>
-          <include name="test12"/>
           <include name="closeBrowser"/>
-          <include name="test13"/>
-          <include name="test1"/>
         </methods>
       </class> <!-- TestCase.TC002_oneCognizant -->
     </classes>
