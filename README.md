@@ -14,11 +14,11 @@ The project uses various dependencies and libraries to facilitate automation.
 ### 2. Dependencies
  
 - *Apache POI*
-  - Version: 5.2.3/5.2.5 (latest version)
+  - Version: 5.2.2
   - Purpose: Used for reading and writing Excel files, facilitating data-driven testing.
  
 - *TestNG*
-  - Version: 7.4.0
+  - Version: 7.7.1
   - Purpose: Framework for test automation that allows for parallel execution and flexible test configuration.
  
 - *Extent Report*
@@ -30,7 +30,7 @@ The project uses various dependencies and libraries to facilitate automation.
   - Purpose: Enables interaction with web elements, navigation, and form submission in the browser.
  
 - *Loggers*
-  - Version: 2.22.0
+  - Version: 2.22.1
   - Purpose: Provides logging capabilities for better debugging and traceability.
  
 ## Automation Test Flow
