@@ -106,8 +106,9 @@ The project uses various dependencies and libraries to facilitate automation.
  
 ## Author Information
  
-- *Ayushi Gupta*
+
 - *Ramendu Ghosal*
+- *Ayushi Gupta*
 - *Satyam Anand*
 - *Kavya BS*
  
